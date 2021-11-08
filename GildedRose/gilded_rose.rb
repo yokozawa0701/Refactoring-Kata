@@ -23,10 +23,10 @@ class GildedRose
       if item.quality < 50
         result += 1
         if item.name == 'Backstage passes to a TAFKAL80ETC concert'
-          if item.sell_in < 11 && item.quality < 50
+          if item.sell_in < 11
             result += 1
           end
-          if item.sell_in < 6 && item.quality < 50
+          if item.sell_in < 6
             result += 1
           end
         end
