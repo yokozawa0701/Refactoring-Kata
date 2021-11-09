@@ -33,17 +33,17 @@ class GildedRose
     return if item.name == 'Sulfuras, Hand of Ragnaros'
 
     item.quality += calc_quality_by_normal(item)
-    item.sell_in = item.sell_in - 1
+    item.sell_in -= 1
     return unless item.sell_in.negative?
 
     if item.name != 'Aged Brie'
       if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-        item.quality = item.quality - 1 if item.quality.positive?
+        item.quality -= 1 if item.quality.positive?
       else
         item.quality -= item.quality
       end
     else
-      item.quality = item.quality + 1 if item.quality < 50
+      item.quality += 1 if item.quality < 50
     end
   end
 end
