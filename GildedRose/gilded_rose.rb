@@ -17,9 +17,7 @@ class GildedRose
     result = 0
     return result if item.name == 'Sulfuras, Hand of Ragnaros'
 
-    if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
-      result -= 1 if item.quality.positive?
-    else
+    if item.name == 'Aged Brie' || item.name == 'Backstage passes to a TAFKAL80ETC concert'
       return result if item.quality >= 50
 
       result += 1
@@ -27,6 +25,8 @@ class GildedRose
         result += 1 if item.sell_in < 11
         result += 1 if item.sell_in < 6
       end
+    else
+      result -= 1 if item.quality.positive?
     end
     result
   end
