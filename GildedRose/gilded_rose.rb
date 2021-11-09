@@ -15,10 +15,10 @@ class GildedRose
 
   def calc_quality_by_normal(item)
     result = 0
+    return result if item.name == 'Sulfuras, Hand of Ragnaros'
+
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
-      if item.quality.positive? && item.name != 'Sulfuras, Hand of Ragnaros'
-        result -= 1
-      end
+      result -= 1 if item.quality.positive?
     else
       return result if item.quality >= 50
 
