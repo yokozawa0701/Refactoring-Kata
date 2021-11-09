@@ -76,6 +76,15 @@ describe GildedRose do
           expect(items[0].quality).to eq 1
         end
       end
+
+      context 'Item#sell_inが0の場合' do
+        let(:sell_in) { 0 }
+        it 'Item#qualityが2大きくなること' do
+          items = [Item.new(name, sell_in, quality)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq 22
+        end
+      end
     end
 
     context 'Item#nameが Sulfuras, Hand of Ragnaros の場合' do
