@@ -36,14 +36,14 @@ class GildedRose
     item.sell_in -= 1
     return unless item.sell_in.negative?
 
-    if item.name != 'Aged Brie'
-      if item.name != 'Backstage passes to a TAFKAL80ETC concert'
-        item.quality -= 1 if item.quality.positive?
-      else
-        item.quality -= item.quality
-      end
-    else
+    if item.name == 'Aged Brie'
       item.quality += 1 if item.quality < 50
+    else
+      if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+        item.quality -= item.quality
+      else
+        item.quality -= 1 if item.quality.positive?
+      end
     end
   end
 end
