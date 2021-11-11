@@ -23,8 +23,8 @@ class GildedRose
         result += 1 if item.sell_in < 11
         result += 1 if item.sell_in < 6
       end
-    else
-      result -= 1 if item.quality.positive?
+    elsif item.quality.positive?
+      result -= 1
     end
     result
   end
