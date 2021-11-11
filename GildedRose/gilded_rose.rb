@@ -34,15 +34,14 @@ class GildedRose
 
     item.quality += calc_quality_by_normal(item)
     item.sell_in -= 1
-    return unless item.sell_in.negative?
+    item.quality += calc_quality_sell_in_negativ(item)
+  end
 
-    if item.name == 'Aged Brie' && item.quality < 50
-      item.quality += 1
-    elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
-      item.quality -= item.quality
-    elsif item.quality.positive?
-      item.quality -= 1
-    end
+  def calc_quality_sell_in_negativ(item)
+    return 0 unless item.sell_in.negative?
+    return 1 if item.name == 'Aged Brie' && item.quality < 50
+    return -item.quality if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+    return -1 if item.quality.positive?
   end
 end
 
