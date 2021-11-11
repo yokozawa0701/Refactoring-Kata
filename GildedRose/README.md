@@ -1,3 +1,5 @@
+https://github.com/emilybache/GildedRose-Refactoring-Kata
+
 # Gilded Rose 要件仕様書
 こんにちは、チーム・ギルドローズへようこそ。我々はアリソンという気さくな人が経営する、都会の一等地にある小さな宿です。
 
