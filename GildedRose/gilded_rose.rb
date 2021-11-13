@@ -55,10 +55,6 @@ class ConcreteItem < Item
 
   private
 
-  def backstage?
-    name == 'Backstage passes to a TAFKAL80ETC concert'
-  end
-
   def quality_less_than_50?
     quality < 50
   end
@@ -75,9 +71,7 @@ class ConcreteItem < Item
     result = 0
     return 0 unless sell_in.negative?
 
-    if backstage?
-      result += -quality
-    elsif quality.positive?
+    if quality.positive?
       result -= 1
     end
     result
@@ -109,5 +103,11 @@ class Backstage < ConcreteItem
     result += 1 if sell_in < 11
     result += 1 if sell_in < 6
     result
+  end
+
+  def calc_quality_sell_in_negative
+    return 0 unless sell_in.negative?
+
+    -quality
   end
 end
