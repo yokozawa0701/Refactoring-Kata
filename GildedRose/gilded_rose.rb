@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class GildedRose
+  attr_reader :items, :updated_items
+
   def initialize(items)
-    @items = items.map { |item| item_factory(item) }
+    @items = items
+    @updated_items = items.map { |item| item_factory(item).update }
   end
 
   def update_quality
-    @items.map(&:update)
+    items.each_with_index do |item, i|
+      update_item(item, updated_items[i])
+    end
   end
 
   private
@@ -22,6 +27,11 @@ class GildedRose
     else
       ConcreteItem.new(item)
     end
+  end
+
+  def update_item(item, updated_item)
+    item.sell_in = updated_item.sell_in
+    item.quality = updated_item.quality
   end
 end
 
