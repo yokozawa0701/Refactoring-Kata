@@ -37,8 +37,8 @@ class GildedRose
       result += 1 if quality_less_than_50?(item)
       result += 1 if item.sell_in < 11
       result += 1 if item.sell_in < 6
-    else
-      result -= 1 if item.quality.positive?
+    elsif item.quality.positive?
+      result -= 1
     end
     result
   end
@@ -59,8 +59,8 @@ class GildedRose
       result += 1 if quality_less_than_50?(item)
     elsif backstage?(item)
       result += -item.quality
-    else
-      result -= 1 if item.quality.positive?
+    elsif item.quality.positive?
+      result -= 1
     end
     result
   end
