@@ -6,7 +6,7 @@ class GildedRose
   end
 
   def update_quality
-    @items.each do |item|
+    @items.map do |item|
       concrete_item = item_factory(item)
       update_item(concrete_item)
     end
@@ -49,11 +49,12 @@ class GildedRose
   end
 
   def update_item(item)
-    return if sulfuras?(item)
+    return item if sulfuras?(item)
 
     item.quality += calc_quality_by_normal(item)
     item.sell_in -= 1
     item.quality += calc_quality_sell_in_negative(item)
+    item
   end
 
   def calc_quality_sell_in_negative(item)
