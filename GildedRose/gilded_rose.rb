@@ -52,15 +52,17 @@ class GildedRose
   end
 
   def calc_quality_sell_in_negative(item)
+    result = 0
     return 0 unless item.sell_in.negative?
 
-    if aged_brie?(item) && quality_less_than_50?(item)
-      return 1
+    if aged_brie?(item)
+      result += 1 if quality_less_than_50?(item)
     elsif backstage?(item)
-      return -item.quality
+      result += -item.quality
+    else
+      result -= 1 if item.quality.positive?
     end
-
-    return -1 if item.quality.positive?
+    result
   end
 end
 
