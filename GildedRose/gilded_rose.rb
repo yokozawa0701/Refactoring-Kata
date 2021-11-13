@@ -21,7 +21,6 @@ class GildedRose
       ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
     end
   end
-
 end
 
 class Item
@@ -39,20 +38,17 @@ class Item
 end
 
 class ConcreteItem < Item
-
   def initialize(name:, sell_in:, quality:)
     super(name, sell_in, quality)
   end
 
   def update
-    return self if sulfuras?
-
     self.quality += calc_quality_by_normal
     self.sell_in -= 1
     self.quality += calc_quality_sell_in_negative
     self
   end
-  
+
   private
 
   def aged_brie?
@@ -61,10 +57,6 @@ class ConcreteItem < Item
 
   def backstage?
     name == 'Backstage passes to a TAFKAL80ETC concert'
-  end
-
-  def sulfuras?
-    name == 'Sulfuras, Hand of Ragnaros'
   end
 
   def quality_less_than_50?
@@ -101,4 +93,7 @@ class ConcreteItem < Item
 end
 
 class Sulfuras < ConcreteItem
+  def update
+    self
+  end
 end
