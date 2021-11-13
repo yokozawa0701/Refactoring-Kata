@@ -16,13 +16,13 @@ class GildedRose
   def item_factory(item)
     case item.name
     when 'Sulfuras, Hand of Ragnaros'
-      Sulfuras.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+      Sulfuras.new(item)
     when 'Aged Brie'
-      AgedBrie.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+      AgedBrie.new(item)
     when 'Backstage passes to a TAFKAL80ETC concert'
-      Backstage.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+      Backstage.new(item)
     else
-      ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+      ConcreteItem.new(item)
     end
   end
 end
@@ -42,8 +42,8 @@ class Item
 end
 
 class ConcreteItem < Item
-  def initialize(name:, sell_in:, quality:)
-    super(name, sell_in, quality)
+  def initialize(item)
+    super(item.name, item.sell_in, item.quality)
   end
 
   def update
