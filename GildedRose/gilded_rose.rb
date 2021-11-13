@@ -53,10 +53,6 @@ class ConcreteItem < Item
 
   private
 
-  def aged_brie?
-    name == 'Aged Brie'
-  end
-
   def backstage?
     name == 'Backstage passes to a TAFKAL80ETC concert'
   end
@@ -81,9 +77,7 @@ class ConcreteItem < Item
     result = 0
     return 0 unless sell_in.negative?
 
-    if aged_brie?
-      result += 1 if quality_less_than_50?
-    elsif backstage?
+    if backstage?
       result += -quality
     elsif quality.positive?
       result -= 1
@@ -100,6 +94,12 @@ end
 
 class AgedBrie < ConcreteItem
   def calc_quality_by_normal
+    quality_less_than_50? ? 1 : 0
+  end
+
+  def calc_quality_sell_in_negative
+    return 0 unless sell_in.negative?
+
     quality_less_than_50? ? 1 : 0
   end
 end
