@@ -90,6 +90,7 @@ describe GildedRose do
 
     context 'Item#nameが Sulfuras, Hand of Ragnaros の場合' do
       let(:name) { 'Sulfuras, Hand of Ragnaros' }
+      let(:quality) { 80 }
 
       it 'Item#sell_inが変わらないことこと' do
         expect(subject[0].sell_in).to eq 30
