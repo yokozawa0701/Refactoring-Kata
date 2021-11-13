@@ -64,7 +64,7 @@ describe GildedRose do
       context 'Item#qualityが50場合' do
         let(:quality) { 50 }
 
-        it '数値が増えないこと' do
+        it 'Item#qualityが増えないこと' do
           GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 50
         end
@@ -85,6 +85,15 @@ describe GildedRose do
         it 'Item#qualityが2大きくなること' do
           GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 22
+        end
+
+        context 'Item#qualityが49場合' do
+          let(:quality) { 49 }
+
+          it 'Item#qualityが1大きくなること' do
+            GildedRose.new(items).update_quality
+            expect(items[0].quality).to eq 50
+          end
         end
       end
     end
