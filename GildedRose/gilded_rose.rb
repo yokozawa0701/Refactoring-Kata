@@ -7,11 +7,16 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      update_item(item)
+      concrete_item = item_factory(item)
+      update_item(concrete_item)
     end
   end
 
   private
+
+  def item_factory(item)
+    item
+  end
 
   def aged_brie?(item)
     item.name == 'Aged Brie'
