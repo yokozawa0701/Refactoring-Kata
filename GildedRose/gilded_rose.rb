@@ -7,8 +7,7 @@ class GildedRose
 
   def update_quality
     @items.map do |item|
-      concrete_item = item_factory(item)
-      update_item(concrete_item)
+      item_factory(item).update
     end
   end
 
@@ -18,58 +17,6 @@ class GildedRose
     ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
   end
 
-  def aged_brie?(item)
-    item.name == 'Aged Brie'
-  end
-
-  def backstage?(item)
-    item.name == 'Backstage passes to a TAFKAL80ETC concert'
-  end
-
-  def sulfuras?(item)
-    item.name == 'Sulfuras, Hand of Ragnaros'
-  end
-
-  def quality_less_than_50?(item)
-    item.quality < 50
-  end
-
-  def calc_quality_by_normal(item)
-    result = 0
-    if aged_brie?(item)
-      result += 1 if quality_less_than_50?(item)
-    elsif backstage?(item)
-      result += 1 if quality_less_than_50?(item)
-      result += 1 if item.sell_in < 11
-      result += 1 if item.sell_in < 6
-    elsif item.quality.positive?
-      result -= 1
-    end
-    result
-  end
-
-  def update_item(item)
-    return item if sulfuras?(item)
-
-    item.quality += calc_quality_by_normal(item)
-    item.sell_in -= 1
-    item.quality += calc_quality_sell_in_negative(item)
-    item
-  end
-
-  def calc_quality_sell_in_negative(item)
-    result = 0
-    return 0 unless item.sell_in.negative?
-
-    if aged_brie?(item)
-      result += 1 if quality_less_than_50?(item)
-    elsif backstage?(item)
-      result += -item.quality
-    elsif item.quality.positive?
-      result -= 1
-    end
-    result
-  end
 end
 
 class Item
@@ -90,6 +37,61 @@ class ConcreteItem < Item
 
   def initialize(name:, sell_in:, quality:)
     super(name, sell_in, quality)
+  end
+
+  def update
+    return self if sulfuras?
+
+    self.quality += calc_quality_by_normal
+    self.sell_in -= 1
+    self.quality += calc_quality_sell_in_negative
+    self
+  end
+  
+  private
+
+  def aged_brie?
+    name == 'Aged Brie'
+  end
+
+  def backstage?
+    name == 'Backstage passes to a TAFKAL80ETC concert'
+  end
+
+  def sulfuras?
+    name == 'Sulfuras, Hand of Ragnaros'
+  end
+
+  def quality_less_than_50?
+    quality < 50
+  end
+
+  def calc_quality_by_normal
+    result = 0
+    if aged_brie?
+      result += 1 if quality_less_than_50?
+    elsif backstage?
+      result += 1 if quality_less_than_50?
+      result += 1 if sell_in < 11
+      result += 1 if sell_in < 6
+    elsif quality.positive?
+      result -= 1
+    end
+    result
+  end
+
+  def calc_quality_sell_in_negative
+    result = 0
+    return 0 unless sell_in.negative?
+
+    if aged_brie?
+      result += 1 if quality_less_than_50?
+    elsif backstage?
+      result += -quality
+    elsif quality.positive?
+      result -= 1
+    end
+    result
   end
 end
 
