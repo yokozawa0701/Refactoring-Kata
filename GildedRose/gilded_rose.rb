@@ -19,6 +19,8 @@ class GildedRose
       Sulfuras.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
     when 'Aged Brie'
       AgedBrie.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+    when 'Backstage passes to a TAFKAL80ETC concert'
+      Backstage.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
     else
       ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
     end
@@ -102,4 +104,7 @@ class AgedBrie < ConcreteItem
 
     quality_less_than_50? ? 1 : 0
   end
+end
+
+class Backstage < ConcreteItem
 end
