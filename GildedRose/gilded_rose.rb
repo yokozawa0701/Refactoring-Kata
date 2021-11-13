@@ -2,13 +2,11 @@
 
 class GildedRose
   def initialize(items)
-    @items = items
+    @items = items.map { |item| item_factory(item) }
   end
 
   def update_quality
-    @items.map do |item|
-      item_factory(item).update
-    end
+    @items.map(&:update)
   end
 
   private
