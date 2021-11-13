@@ -21,6 +21,10 @@ class GildedRose
     item.name == 'Backstage passes to a TAFKAL80ETC concert'
   end
 
+  def sulfuras?(item)
+    item.name == 'Sulfuras, Hand of Ragnaros'
+  end
+
   def calc_quality_by_normal(item)
     result = 0
     if aged_brie?(item) || backstage?(item)
@@ -38,7 +42,7 @@ class GildedRose
   end
 
   def update_item(item)
-    return if item.name == 'Sulfuras, Hand of Ragnaros'
+    return if sulfuras?(item)
 
     item.quality += calc_quality_by_normal(item)
     item.sell_in -= 1
