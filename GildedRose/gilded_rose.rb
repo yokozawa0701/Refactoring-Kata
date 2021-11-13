@@ -67,9 +67,7 @@ class ConcreteItem < Item
 
   def calc_quality_by_normal
     result = 0
-    if aged_brie?
-      result += 1 if quality_less_than_50?
-    elsif backstage?
+    if backstage?
       result += 1 if quality_less_than_50?
       result += 1 if sell_in < 11
       result += 1 if sell_in < 6
@@ -101,4 +99,7 @@ class Sulfuras < ConcreteItem
 end
 
 class AgedBrie < ConcreteItem
+  def calc_quality_by_normal
+    quality_less_than_50? ? 1 : 0
+  end
 end
