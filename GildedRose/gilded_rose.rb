@@ -17,6 +17,8 @@ class GildedRose
     case item.name
     when 'Sulfuras, Hand of Ragnaros'
       Sulfuras.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+    when 'Aged Brie'
+      AgedBrie.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
     else
       ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
     end
@@ -96,4 +98,7 @@ class Sulfuras < ConcreteItem
   def update
     self
   end
+end
+
+class AgedBrie < ConcreteItem
 end
