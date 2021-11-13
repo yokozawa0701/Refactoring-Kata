@@ -25,14 +25,16 @@ class GildedRose
     item.name == 'Sulfuras, Hand of Ragnaros'
   end
 
+  def quality_less_than_50?(item)
+    item.quality < 50
+  end
+
   def calc_quality_by_normal(item)
     result = 0
     if aged_brie?(item)
-      return result if item.quality >= 50
-      result += 1
+      result += 1 if quality_less_than_50?(item)
     elsif backstage?(item)
-      return result if item.quality >= 50
-      result += 1
+      result += 1 if quality_less_than_50?(item)
       result += 1 if item.sell_in < 11
       result += 1 if item.sell_in < 6
     elsif item.quality.positive?
@@ -51,7 +53,7 @@ class GildedRose
 
   def calc_quality_sell_in_negative(item)
     return 0 unless item.sell_in.negative?
-    return 1 if aged_brie?(item) && item.quality < 50
+    return 1 if aged_brie?(item) && quality_less_than_50?(item)
     return -item.quality if backstage?(item)
     return -1 if item.quality.positive?
   end
