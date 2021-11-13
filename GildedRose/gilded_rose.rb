@@ -14,7 +14,12 @@ class GildedRose
   private
 
   def item_factory(item)
-    ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+    case item.name
+    when 'Sulfuras, Hand of Ragnaros'
+      Sulfuras.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+    else
+      ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
+    end
   end
 
 end
@@ -95,3 +100,5 @@ class ConcreteItem < Item
   end
 end
 
+class Sulfuras < ConcreteItem
+end
