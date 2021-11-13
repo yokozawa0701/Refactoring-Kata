@@ -27,14 +27,14 @@ class GildedRose
 
   def calc_quality_by_normal(item)
     result = 0
-    if aged_brie?(item) || backstage?(item)
+    if aged_brie?(item)
       return result if item.quality >= 50
-
       result += 1
-      if backstage?(item)
-        result += 1 if item.sell_in < 11
-        result += 1 if item.sell_in < 6
-      end
+    elsif backstage?(item)
+      return result if item.quality >= 50
+      result += 1
+      result += 1 if item.sell_in < 11
+      result += 1 if item.sell_in < 6
     elsif item.quality.positive?
       result -= 1
     end
