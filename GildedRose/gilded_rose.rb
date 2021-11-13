@@ -15,7 +15,7 @@ class GildedRose
   private
 
   def item_factory(item)
-    item
+    ConcreteItem.new(name: item.name, sell_in: item.sell_in, quality: item.quality)
   end
 
   def aged_brie?(item)
@@ -85,3 +85,11 @@ class Item
     "#{@name}, #{@sell_in}, #{@quality}"
   end
 end
+
+class ConcreteItem < Item
+
+  def initialize(name:, sell_in:, quality:)
+    super(name, sell_in, quality)
+  end
+end
+
