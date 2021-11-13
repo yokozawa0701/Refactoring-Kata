@@ -60,21 +60,13 @@ class ConcreteItem < Item
   end
 
   def calc_quality_by_normal
-    result = 0
-    if quality.positive?
-      result -= 1
-    end
-    result
+    quality.positive? ? -1 : 0
   end
 
   def calc_quality_sell_in_negative
-    result = 0
     return 0 unless sell_in.negative?
 
-    if quality.positive?
-      result -= 1
-    end
-    result
+    quality.positive? ? -1 : 0
   end
 end
 
