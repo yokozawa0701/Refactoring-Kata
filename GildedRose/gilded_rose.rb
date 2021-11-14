@@ -55,9 +55,9 @@ class ConcreteItem < Item
   end
 
   def update
-    quality.value += calc_quality_by_normal
+    quality.value = quality + calc_quality_by_normal
     @sell_in -= 1
-    quality.value += calc_quality_sell_in_negative
+    quality.value = quality + calc_quality_sell_in_negative
     self
   end
 
@@ -87,13 +87,13 @@ end
 
 class AgedBrie < ConcreteItem
   def calc_quality_by_normal
-    quality_less_than_50? ? 1 : 0
+    1
   end
 
   def calc_quality_sell_in_negative
     return 0 unless sell_in.negative?
 
-    quality_less_than_50? ? 1 : 0
+    1
   end
 end
 
