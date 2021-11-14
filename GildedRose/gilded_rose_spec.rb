@@ -111,11 +111,20 @@ describe GildedRose do
         expect(items[0].quality).to eq 21
       end
 
-      context 'Item#qualityが0の場合' do
-        let(:quality) { 0 }
+      context 'Item#qualityが' do
+        context '0の場合' do
+          let(:quality) { 0 }
 
-        it 'Item#qualityが1大きくなること' do
-          expect(items[0].quality).to eq 1
+          it 'Item#qualityが1大きくなること' do
+            expect(items[0].quality).to eq 1
+          end
+        end
+        context '49の場合' do
+          let(:quality) { 49 }
+
+          it 'Item#qualityが1大きくなること' do
+            expect(items[0].quality).to eq 50
+          end
         end
       end
 
@@ -127,14 +136,25 @@ describe GildedRose do
             expect(items[0].quality).to eq 22
           end
 
-          context 'Item#qualityが0の場合' do
-            let(:quality) { 0 }
+          context 'Item#qualityが' do
+            context '0の場合' do
+              let(:quality) { 0 }
 
-            it 'Item#qualityが2大きくなること' do
-              expect(items[0].quality).to eq 2
+              it 'Item#qualityが2大きくなること' do
+                expect(items[0].quality).to eq 2
+              end
+            end
+
+            context '49の場合' do
+              let(:quality) { 49 }
+
+              it 'Item#qualityが1大きくなること' do
+                expect(items[0].quality).to eq 50
+              end
             end
           end
         end
+
         context '5日以内の場合' do
           let(:sell_in) { 5 }
 
@@ -142,11 +162,21 @@ describe GildedRose do
             expect(items[0].quality).to eq 23
           end
 
-          context 'Item#qualityが0の場合' do
-            let(:quality) { 0 }
+          context 'Item#qualityが' do
+            context '0の場合' do
+              let(:quality) { 0 }
 
-            it 'Item#qualityが3大きくなること' do
-              expect(items[0].quality).to eq 3
+              it 'Item#qualityが3大きくなること' do
+                expect(items[0].quality).to eq 3
+              end
+            end
+
+            context '49の場合' do
+              let(:quality) { 49 }
+
+              it 'Item#qualityが1大きくなること' do
+                expect(items[0].quality).to eq 50
+              end
             end
           end
         end
