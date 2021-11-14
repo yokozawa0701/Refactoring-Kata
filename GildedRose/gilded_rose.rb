@@ -55,9 +55,9 @@ class ConcreteItem < Item
   end
 
   def update
-    self.quality.value += calc_quality_by_normal
-    self.sell_in -= 1
-    self.quality.value += calc_quality_sell_in_negative
+    quality.value += calc_quality_by_normal
+    @sell_in -= 1
+    quality.value += calc_quality_sell_in_negative
     self
   end
 
