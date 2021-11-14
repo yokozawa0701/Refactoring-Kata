@@ -63,10 +63,6 @@ class ConcreteItem < Item
 
   private
 
-  def quality_less_than_50?
-    quality.value < 50
-  end
-
   def calc_quality_by_normal
     quality.value.positive? ? -1 : 0
   end
@@ -99,8 +95,7 @@ end
 
 class Backstage < ConcreteItem
   def calc_quality_by_normal
-    result = 0
-    result += 1 if quality_less_than_50?
+    result = 1
     result += 1 if sell_in < 11
     result += 1 if sell_in < 6
     result
