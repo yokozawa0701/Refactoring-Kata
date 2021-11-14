@@ -31,7 +31,7 @@ class GildedRose
 
   def update_item(item, updated_item)
     item.sell_in = updated_item.sell_in
-    item.quality = updated_item.quality
+    item.quality = updated_item.quality.value
   end
 end
 
@@ -51,33 +51,34 @@ end
 
 class ConcreteItem < Item
   def initialize(item)
-    super(item.name, item.sell_in, item.quality)
+    super(item.name, item.sell_in, Quality.new(item.quality))
   end
 
   def update
-    self.quality += calc_quality_by_normal
+    self.quality.value += calc_quality_by_normal
     self.sell_in -= 1
-    self.quality += calc_quality_sell_in_negative
+    self.quality.value += calc_quality_sell_in_negative
     self
   end
 
   private
 
   def quality_less_than_50?
-    quality < 50
+    quality.value < 50
   end
 
   def calc_quality_by_normal
-    quality.positive? ? -1 : 0
+    quality.value.positive? ? -1 : 0
   end
 
   def calc_quality_sell_in_negative
     return 0 unless sell_in.negative?
 
-    quality.positive? ? -1 : 0
+    quality.value.positive? ? -1 : 0
   end
 end
 
+# スーパークラスのメソッドを使わないサブクラスはあってはいけない
 class Sulfuras < ConcreteItem
   def update
     self
@@ -108,6 +109,25 @@ class Backstage < ConcreteItem
   def calc_quality_sell_in_negative
     return 0 unless sell_in.negative?
 
-    -quality
+    -quality.value
+  end
+end
+
+class Quality
+  attr_accessor :value
+
+  MAX_NUMBER = 50
+  MIN_NUMBER = 0
+
+  def initialize(value)
+    @value = value
+  end
+
+  def +(other)
+    [MAX_NUMBER, value + other].min
+  end
+
+  def -(other)
+    [MIN_NUMBER, value - other].max
   end
 end
