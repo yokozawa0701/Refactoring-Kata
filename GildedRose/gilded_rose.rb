@@ -55,9 +55,9 @@ class ConcreteItem < Item
   end
 
   def update
-    quality.value = quality + calc_quality_by_normal
+    quality.value += calc_quality_by_normal
     @sell_in -= 1
-    quality.value = quality + calc_quality_sell_in_negative
+    quality.value += calc_quality_sell_in_negative
     self
   end
 
@@ -108,21 +108,31 @@ class Backstage < ConcreteItem
   end
 end
 
+# FIXME: 至るところに quality.value ってなってるのをなんとかしたい
+# Todo: quality.value.positive? を消したい
 class Quality
-  attr_accessor :value
+  attr_reader :value
 
-  MAX_NUMBER = 50
-  MIN_NUMBER = 0
+  MAX_VALUE = 50
+  MIN_VALUE = 0
 
   def initialize(value)
     @value = value
   end
 
-  def +(other)
-    [MAX_NUMBER, value + other].min
+  def value=(val)
+    @value = max_min(val)
   end
 
-  def -(other)
-    [MIN_NUMBER, value - other].max
+  private
+
+  def max_min(val)
+    if val > MAX_VALUE
+      MAX_VALUE
+    elsif val < MIN_VALUE
+      MIN_VALUE
+    else
+      val
+    end
   end
 end
