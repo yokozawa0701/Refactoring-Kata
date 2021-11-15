@@ -64,13 +64,13 @@ class ConcreteItem < Item
   private
 
   def calc_quality_by_normal
-    quality.value.positive? ? -1 : 0
+    -1
   end
 
   def calc_quality_sell_in_negative
     return 0 unless sell_in.negative?
 
-    quality.value.positive? ? -1 : 0
+    -1
   end
 end
 
@@ -109,7 +109,6 @@ class Backstage < ConcreteItem
 end
 
 # FIXME: 至るところに quality.value ってなってるのをなんとかしたい
-# Todo: quality.value.positive? を消したい
 class Quality
   attr_reader :value
 
