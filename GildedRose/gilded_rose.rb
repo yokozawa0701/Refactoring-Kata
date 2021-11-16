@@ -91,10 +91,13 @@ end
 
 class Backstage < ConcreteItem
   def calc_quality_by_normal
-    result = 1
-    result += 1 if sell_in < 11
-    result += 1 if sell_in < 6
-    result
+    if sell_in < 6
+      3
+    elsif sell_in < 11
+      2
+    else
+      1
+    end
   end
 
   def calc_quality_sell_in_negative
