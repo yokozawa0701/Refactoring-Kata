@@ -68,9 +68,7 @@ class ConcreteItem < Item
   end
 
   def calc_quality_sell_in_negative
-    return 0 unless sell_in.negative?
-
-    -1
+    sell_in.negative? ? -1 : 0
   end
 end
 
@@ -87,9 +85,7 @@ class AgedBrie < ConcreteItem
   end
 
   def calc_quality_sell_in_negative
-    return 0 unless sell_in.negative?
-
-    1
+    sell_in.negative? ? 1 : 0
   end
 end
 
@@ -102,9 +98,7 @@ class Backstage < ConcreteItem
   end
 
   def calc_quality_sell_in_negative
-    return 0 unless sell_in.negative?
-
-    -quality.value
+    sell_in.negative? ? -quality.value : 0
   end
 end
 
