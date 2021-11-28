@@ -80,6 +80,8 @@ class Sulfuras < ConcreteItem
 end
 
 class AgedBrie < ConcreteItem
+  private
+
   def calc_quality_by_normal
     1
   end
@@ -90,6 +92,8 @@ class AgedBrie < ConcreteItem
 end
 
 class Backstage < ConcreteItem
+  private
+
   def calc_quality_by_normal
     if sell_in < 6
       3
@@ -105,7 +109,6 @@ class Backstage < ConcreteItem
   end
 end
 
-# FIXME: 至るところに quality.value ってなってるのをなんとかしたい
 class Quality
   attr_reader :value
 
