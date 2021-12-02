@@ -96,6 +96,22 @@ class SulfurasDelegate
   end
 end
 
+class AgedBrieDelegate
+  attr_reader :sell_in
+
+  def initialize(sell_in)
+    @sell_in = sell_in
+  end
+
+  def calc_quality_by_normal
+    1
+  end
+
+  def calc_quality_sell_in_negative
+    sell_in.negative? ? 1 : 0
+  end
+end
+
 class AgedBrie < ConcreteItem
   private
 
