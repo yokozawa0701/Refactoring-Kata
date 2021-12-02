@@ -54,7 +54,7 @@ class ConcreteItem < Item
   end
 
   def update
-    species ? species.update : private_update
+    species&.update || private_update
   end
 
   private
