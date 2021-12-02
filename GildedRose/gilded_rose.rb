@@ -58,6 +58,8 @@ class ConcreteItem < Item
       AgedBrieDelegate.new(self)
     when 'Backstage passes to a TAFKAL80ETC concert'
       BackstageDelegate.new(self)
+    when 'Conjured'
+      ConjuredDelegate.new(self)
     else
       SpeciesDelegate.new(self)
     end
@@ -122,6 +124,18 @@ class BackstageDelegate < SpeciesDelegate
 
   def calc_quality_sell_in_negative
     item.sell_in.negative? ? -item.quality.value : 0
+  end
+end
+
+class ConjuredDelegate < SpeciesDelegate
+  private
+
+  def calc_quality_by_normal
+    -2
+  end
+
+  def calc_quality_sell_in_negative
+    item.sell_in.negative? ? -2 : 0
   end
 end
 
