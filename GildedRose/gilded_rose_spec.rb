@@ -190,5 +190,30 @@ describe GildedRose do
         end
       end
     end
+    context 'Item#nameが Conjured の場合' do
+      let(:name) { 'Conjured' }
+
+      it 'Item#qualityが2小さくなること' do
+        expect(items[0].quality).to eq 18
+      end
+      it 'Item#sell_inが1小さくなること' do
+        expect(items[0].sell_in).to eq 29
+      end
+
+      context 'Item#qualityが0の場合' do
+        let(:quality) { 0 }
+        it 'Item#qualityがマイナスにならないこと' do
+          expect(items[0].quality).to eq 0
+        end
+      end
+
+      context 'Item#sell_inが0の場合' do
+        let(:sell_in) { 0 }
+
+        it 'Item#qualityが4小さくなること' do
+          expect(items[0].quality).to eq 16
+        end
+      end
+    end
   end
 end
