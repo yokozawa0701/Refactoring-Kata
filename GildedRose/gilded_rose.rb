@@ -55,13 +55,17 @@ class ConcreteItem < Item
   end
 
   def update
+    private_update
+  end
+
+  private
+
+  def private_update
     quality.value += calc_quality_by_normal
     @sell_in -= 1
     quality.value += calc_quality_sell_in_negative
     self
   end
-
-  private
 
   def calc_quality_by_normal
     -1
