@@ -49,25 +49,10 @@ class ConcreteItem < Item
   end
 
   def update
-    species&.update || private_update
+    species.update
   end
 
   private
-
-  def private_update
-    quality.value += calc_quality_by_normal
-    @sell_in -= 1
-    quality.value += calc_quality_sell_in_negative
-    self
-  end
-
-  def calc_quality_by_normal
-    -1
-  end
-
-  def calc_quality_sell_in_negative
-    sell_in.negative? ? -1 : 0
-  end
 
   def species_delegate
     case name
@@ -77,6 +62,8 @@ class ConcreteItem < Item
       AgedBrieDelegate.new(self)
     when 'Backstage passes to a TAFKAL80ETC concert'
       BackstageDelegate.new(self)
+    else
+      SpeciesDelegate.new(self)
     end
   end
 end
