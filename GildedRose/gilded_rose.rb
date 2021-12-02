@@ -18,8 +18,6 @@ class GildedRose
 
   def item_factory(item)
     case item.name
-    when 'Sulfuras, Hand of Ragnaros'
-      Sulfuras.new(item)
     when 'Aged Brie'
       AgedBrie.new(item)
     when 'Backstage passes to a TAFKAL80ETC concert'
@@ -83,13 +81,6 @@ class ConcreteItem < Item
     when 'Sulfuras, Hand of Ragnaros'
       SulfurasDelegate.new(self)
     end
-  end
-end
-
-# スーパークラスのメソッドを使わないサブクラスはあってはいけない
-class Sulfuras < ConcreteItem
-  def update
-    self
   end
 end
 
