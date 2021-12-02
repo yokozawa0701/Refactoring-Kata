@@ -18,8 +18,6 @@ class GildedRose
 
   def item_factory(item)
     case item.name
-    when 'Aged Brie'
-      AgedBrie.new(item)
     when 'Backstage passes to a TAFKAL80ETC concert'
       Backstage.new(item)
     else
@@ -80,6 +78,8 @@ class ConcreteItem < Item
     case name
     when 'Sulfuras, Hand of Ragnaros'
       SulfurasDelegate.new(self)
+    when 'Aged Brie'
+      AgedBrieDelegate.new(sell_in, quality)
     end
   end
 end
@@ -97,22 +97,20 @@ class SulfurasDelegate
 end
 
 class AgedBrieDelegate
-  attr_reader :sell_in
+  attr_reader :sell_in, :quality
 
-  def initialize(sell_in)
+  def initialize(sell_in, quality)
     @sell_in = sell_in
+    @quality = quality
   end
 
-  def calc_quality_by_normal
-    1
+  def update
+    quality.value += calc_quality_by_normal
+    @sell_in -= 1
+    quality.value += calc_quality_sell_in_negative
+    self
   end
 
-  def calc_quality_sell_in_negative
-    sell_in.negative? ? 1 : 0
-  end
-end
-
-class AgedBrie < ConcreteItem
   private
 
   def calc_quality_by_normal
