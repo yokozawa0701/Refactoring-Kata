@@ -84,13 +84,15 @@ class ConcreteItem < Item
   end
 end
 
-class SulfurasDelegate
+class SpeciesDelegate
   attr_reader :item
 
   def initialize(item)
     @item = item
   end
+end
 
+class SulfurasDelegate < SpeciesDelegate
   def update
     item
   end
