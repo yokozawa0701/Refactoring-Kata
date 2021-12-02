@@ -79,7 +79,7 @@ class ConcreteItem < Item
     when 'Sulfuras, Hand of Ragnaros'
       SulfurasDelegate.new(self)
     when 'Aged Brie'
-      AgedBrieDelegate.new(sell_in, quality)
+      AgedBrieDelegate.new(self)
     end
   end
 end
@@ -90,6 +90,23 @@ class SpeciesDelegate
   def initialize(item)
     @item = item
   end
+
+  def update
+    item.quality.value += calc_quality_by_normal
+    item.sell_in -= 1
+    item.quality.value += calc_quality_sell_in_negative
+    item
+  end
+
+  private
+
+  def calc_quality_by_normal
+    -1
+  end
+
+  def calc_quality_sell_in_negative
+    item.sell_in.negative? ? -1 : 0
+  end
 end
 
 class SulfurasDelegate < SpeciesDelegate
@@ -98,21 +115,7 @@ class SulfurasDelegate < SpeciesDelegate
   end
 end
 
-class AgedBrieDelegate
-  attr_reader :sell_in, :quality
-
-  def initialize(sell_in, quality)
-    @sell_in = sell_in
-    @quality = quality
-  end
-
-  def update
-    quality.value += calc_quality_by_normal
-    @sell_in -= 1
-    quality.value += calc_quality_sell_in_negative
-    self
-  end
-
+class AgedBrieDelegate < SpeciesDelegate
   private
 
   def calc_quality_by_normal
@@ -120,7 +123,7 @@ class AgedBrieDelegate
   end
 
   def calc_quality_sell_in_negative
-    sell_in.negative? ? 1 : 0
+    item.sell_in.negative? ? 1 : 0
   end
 end
 
