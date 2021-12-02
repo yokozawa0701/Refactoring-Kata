@@ -5,7 +5,7 @@ class GildedRose
 
   def initialize(items)
     @items = items
-    @updated_items = items.map { |item| item_factory(item).update }
+    @updated_items = items.map { |item| ConcreteItem.new(item).update }
   end
 
   def update_quality
@@ -15,10 +15,6 @@ class GildedRose
   end
 
   private
-
-  def item_factory(item)
-    ConcreteItem.new(item)
-  end
 
   def update_item(item, updated_item)
     item.sell_in = updated_item.sell_in
