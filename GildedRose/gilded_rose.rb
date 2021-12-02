@@ -17,12 +17,7 @@ class GildedRose
   private
 
   def item_factory(item)
-    case item.name
-    when 'Backstage passes to a TAFKAL80ETC concert'
-      Backstage.new(item)
-    else
-      ConcreteItem.new(item)
-    end
+    ConcreteItem.new(item)
   end
 
   def update_item(item, updated_item)
@@ -80,6 +75,8 @@ class ConcreteItem < Item
       SulfurasDelegate.new(self)
     when 'Aged Brie'
       AgedBrieDelegate.new(self)
+    when 'Backstage passes to a TAFKAL80ETC concert'
+      BackstageDelegate.new(self)
     end
   end
 end
@@ -127,13 +124,13 @@ class AgedBrieDelegate < SpeciesDelegate
   end
 end
 
-class Backstage < ConcreteItem
+class BackstageDelegate < SpeciesDelegate
   private
 
   def calc_quality_by_normal
-    if sell_in < 6
+    if item.sell_in < 6
       3
-    elsif sell_in < 11
+    elsif item.sell_in < 11
       2
     else
       1
@@ -141,7 +138,7 @@ class Backstage < ConcreteItem
   end
 
   def calc_quality_sell_in_negative
-    sell_in.negative? ? -quality.value : 0
+    item.sell_in.negative? ? -item.quality.value : 0
   end
 end
 
