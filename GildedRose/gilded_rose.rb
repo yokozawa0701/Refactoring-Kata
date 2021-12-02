@@ -79,6 +79,18 @@ class Sulfuras < ConcreteItem
   end
 end
 
+class SulfurasDelegate
+  attr_reader :item
+
+  def initialize(item)
+    @item = item
+  end
+
+  def update
+    item
+  end
+end
+
 class AgedBrie < ConcreteItem
   private
 
