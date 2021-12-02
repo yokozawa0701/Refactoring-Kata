@@ -50,12 +50,15 @@ class Item
 end
 
 class ConcreteItem < Item
+  attr_reader :species
+
   def initialize(item)
     super(item.name, item.sell_in, Quality.new(item.quality))
+    @species = species_delegate
   end
 
   def update
-    private_update
+    species ? species.update : private_update
   end
 
   private
@@ -73,6 +76,13 @@ class ConcreteItem < Item
 
   def calc_quality_sell_in_negative
     sell_in.negative? ? -1 : 0
+  end
+
+  def species_delegate
+    case name
+    when 'Sulfuras, Hand of Ragnaros'
+      SulfurasDelegate.new(self)
+    end
   end
 end
 
