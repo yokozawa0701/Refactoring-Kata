@@ -1,55 +1,24 @@
+# frozen_string_literal: true
+
 class GildedRose
+  attr_reader :items, :updated_items
 
   def initialize(items)
     @items = items
+    @updated_items = items.map { |item| ConcreteItem.new(item).update }
   end
 
-  def update_quality()
-    @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
-      else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
-      end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
-        end
-      end
+  def update_quality
+    items.each_with_index do |item, i|
+      update_item(item, updated_items[i])
     end
+  end
+
+  private
+
+  def update_item(item, updated_item)
+    item.sell_in = updated_item.sell_in
+    item.quality = updated_item.quality.value
   end
 end
 
@@ -62,7 +31,122 @@ class Item
     @quality = quality
   end
 
-  def to_s()
+  def to_s
     "#{@name}, #{@sell_in}, #{@quality}"
+  end
+end
+
+class ConcreteItem < Item
+  attr_reader :species
+
+  def initialize(item)
+    super(item.name, item.sell_in, Quality.new(item.quality))
+    @species = species_delegate
+  end
+
+  def update
+    species.update
+  end
+
+  private
+
+  def species_delegate
+    case name
+    when 'Sulfuras, Hand of Ragnaros'
+      SulfurasDelegate.new(self)
+    when 'Aged Brie'
+      AgedBrieDelegate.new(self)
+    when 'Backstage passes to a TAFKAL80ETC concert'
+      BackstageDelegate.new(self)
+    when 'Conjured'
+      ConjuredDelegate.new(self)
+    else
+      SpeciesDelegate.new(self)
+    end
+  end
+end
+
+class SpeciesDelegate
+  attr_reader :item
+
+  def initialize(item)
+    @item = item
+  end
+
+  def update
+    item.quality.value += calc_quality_by_normal
+    item.sell_in -= 1
+    item.quality.value += calc_quality_sell_in_negative
+    item
+  end
+
+  private
+
+  def calc_quality_by_normal
+    -1
+  end
+
+  def calc_quality_sell_in_negative
+    item.sell_in.negative? ? -1 : 0
+  end
+end
+
+class SulfurasDelegate < SpeciesDelegate
+  def update
+    item
+  end
+end
+
+class AgedBrieDelegate < SpeciesDelegate
+  private
+
+  def calc_quality_by_normal
+    1
+  end
+
+  def calc_quality_sell_in_negative
+    item.sell_in.negative? ? 1 : 0
+  end
+end
+
+class BackstageDelegate < SpeciesDelegate
+  private
+
+  def calc_quality_by_normal
+    if item.sell_in < 6
+      3
+    elsif item.sell_in < 11
+      2
+    else
+      1
+    end
+  end
+
+  def calc_quality_sell_in_negative
+    item.sell_in.negative? ? -item.quality.value : 0
+  end
+end
+
+class ConjuredDelegate < SpeciesDelegate
+  private
+
+  def calc_quality_by_normal
+    -2
+  end
+
+  def calc_quality_sell_in_negative
+    item.sell_in.negative? ? -2 : 0
+  end
+end
+
+class Quality
+  attr_reader :value
+
+  def initialize(value)
+    @value = value
+  end
+
+  def value=(val)
+    @value = val.clamp(0..50)
   end
 end

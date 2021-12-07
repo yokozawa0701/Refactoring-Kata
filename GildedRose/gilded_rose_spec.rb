@@ -8,23 +8,24 @@ describe GildedRose do
     let(:sell_in) { 30 }
     let(:quality) { 20 }
 
+    before do
+      GildedRose.new(items).update_quality
+    end
+
     context 'Item#nameがそれ以外（foo）の場合' do
       let(:name) { 'foo' }
 
       it 'Item#qualityが1小さくなること' do
-        GildedRose.new(items).update_quality
         expect(items[0].quality).to eq 19
       end
 
       it 'Item#sell_inが1小さくなること' do
-        GildedRose.new(items).update_quality
         expect(items[0].sell_in).to eq 29
       end
 
       context 'Item#qualityが0の場合' do
         let(:quality) { 0 }
         it 'Item#qualityがマイナスにならないこと' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 0
         end
       end
@@ -33,12 +34,10 @@ describe GildedRose do
         let(:quality) { 50 }
 
         it 'Item#qualityが1小さくなること' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 49
         end
 
         it 'Item#sell_inが1小さくなること' do
-          GildedRose.new(items).update_quality
           expect(items[0].sell_in).to eq 29
         end
       end
@@ -47,7 +46,6 @@ describe GildedRose do
         let(:sell_in) { 0 }
 
         it 'Item#qualityが2小さくなること' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 18
         end
       end
@@ -57,7 +55,6 @@ describe GildedRose do
       let(:name) { 'Aged Brie' }
 
       it 'Item#qualityが1大きくなること' do
-        GildedRose.new(items).update_quality
         expect(items[0].quality).to eq 21
       end
 
@@ -65,7 +62,6 @@ describe GildedRose do
         let(:quality) { 50 }
 
         it 'Item#qualityが増えないこと' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 50
         end
       end
@@ -74,7 +70,6 @@ describe GildedRose do
         let(:quality) { 0 }
 
         it 'Item#qualityが1大きくなること' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 1
         end
       end
@@ -83,7 +78,6 @@ describe GildedRose do
         let(:sell_in) { 0 }
 
         it 'Item#qualityが2大きくなること' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 22
         end
 
@@ -91,7 +85,6 @@ describe GildedRose do
           let(:quality) { 49 }
 
           it 'Item#qualityが1大きくなること' do
-            GildedRose.new(items).update_quality
             expect(items[0].quality).to eq 50
           end
         end
@@ -100,14 +93,13 @@ describe GildedRose do
 
     context 'Item#nameが Sulfuras, Hand of Ragnaros の場合' do
       let(:name) { 'Sulfuras, Hand of Ragnaros' }
+      let(:quality) { 80 }
 
       it 'Item#sell_inが変わらないことこと' do
-        GildedRose.new(items).update_quality
         expect(items[0].sell_in).to eq 30
       end
 
       it 'Item#qualityが変わらないこと' do
-        GildedRose.new(items).update_quality
         expect(items[0].quality).to eq quality
       end
     end
@@ -116,16 +108,23 @@ describe GildedRose do
       let(:name) { 'Backstage passes to a TAFKAL80ETC concert' }
 
       it 'Item#qualityが1大きくなること' do
-        GildedRose.new(items).update_quality
         expect(items[0].quality).to eq 21
       end
 
-      context 'Item#qualityが0の場合' do
-        let(:quality) { 0 }
+      context 'Item#qualityが' do
+        context '0の場合' do
+          let(:quality) { 0 }
 
-        it 'Item#qualityが1大きくなること' do
-          GildedRose.new(items).update_quality
-          expect(items[0].quality).to eq 1
+          it 'Item#qualityが1大きくなること' do
+            expect(items[0].quality).to eq 1
+          end
+        end
+        context '49の場合' do
+          let(:quality) { 49 }
+
+          it 'Item#qualityが1大きくなること' do
+            expect(items[0].quality).to eq 50
+          end
         end
       end
 
@@ -134,33 +133,50 @@ describe GildedRose do
           let(:sell_in) { 10 }
 
           it 'Item#qualityが2大きくなること' do
-            GildedRose.new(items).update_quality
             expect(items[0].quality).to eq 22
           end
 
-          context 'Item#qualityが0の場合' do
-            let(:quality) { 0 }
+          context 'Item#qualityが' do
+            context '0の場合' do
+              let(:quality) { 0 }
 
-            it 'Item#qualityが2大きくなること' do
-              GildedRose.new(items).update_quality
-              expect(items[0].quality).to eq 2
+              it 'Item#qualityが2大きくなること' do
+                expect(items[0].quality).to eq 2
+              end
+            end
+
+            context '49の場合' do
+              let(:quality) { 49 }
+
+              it 'Item#qualityが1大きくなること' do
+                expect(items[0].quality).to eq 50
+              end
             end
           end
         end
+
         context '5日以内の場合' do
           let(:sell_in) { 5 }
 
           it 'Item#qualityが3大きくなること' do
-            GildedRose.new(items).update_quality
             expect(items[0].quality).to eq 23
           end
 
-          context 'Item#qualityが0の場合' do
-            let(:quality) { 0 }
+          context 'Item#qualityが' do
+            context '0の場合' do
+              let(:quality) { 0 }
 
-            it 'Item#qualityが3大きくなること' do
-              GildedRose.new(items).update_quality
-              expect(items[0].quality).to eq 3
+              it 'Item#qualityが3大きくなること' do
+                expect(items[0].quality).to eq 3
+              end
+            end
+
+            context '49の場合' do
+              let(:quality) { 49 }
+
+              it 'Item#qualityが1大きくなること' do
+                expect(items[0].quality).to eq 50
+              end
             end
           end
         end
@@ -170,8 +186,32 @@ describe GildedRose do
         let(:sell_in) { 0 }
 
         it 'Item#qualityが0になること' do
-          GildedRose.new(items).update_quality
           expect(items[0].quality).to eq 0
+        end
+      end
+    end
+    context 'Item#nameが Conjured の場合' do
+      let(:name) { 'Conjured' }
+
+      it 'Item#qualityが2小さくなること' do
+        expect(items[0].quality).to eq 18
+      end
+      it 'Item#sell_inが1小さくなること' do
+        expect(items[0].sell_in).to eq 29
+      end
+
+      context 'Item#qualityが0の場合' do
+        let(:quality) { 0 }
+        it 'Item#qualityがマイナスにならないこと' do
+          expect(items[0].quality).to eq 0
+        end
+      end
+
+      context 'Item#sell_inが0の場合' do
+        let(:sell_in) { 0 }
+
+        it 'Item#qualityが4小さくなること' do
+          expect(items[0].quality).to eq 16
         end
       end
     end
