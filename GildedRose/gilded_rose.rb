@@ -142,26 +142,11 @@ end
 class Quality
   attr_reader :value
 
-  MAX_VALUE = 50
-  MIN_VALUE = 0
-
   def initialize(value)
     @value = value
   end
 
   def value=(val)
-    @value = max_min(val)
-  end
-
-  private
-
-  def max_min(val)
-    if val > MAX_VALUE
-      MAX_VALUE
-    elsif val < MIN_VALUE
-      MIN_VALUE
-    else
-      val
-    end
+    @value = val.clamp(0..50)
   end
 end
